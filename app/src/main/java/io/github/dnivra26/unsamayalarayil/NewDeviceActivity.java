@@ -178,7 +178,7 @@ public class NewDeviceActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 111){
-            latLng.setText(data.getStringExtra("latlng"));
+            latLng.setText("Selected location: "+data.getStringExtra("latlng"));
         }
     }
 
