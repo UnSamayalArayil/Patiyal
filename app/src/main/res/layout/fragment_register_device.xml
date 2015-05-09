@@ -11,6 +11,8 @@
         android:text="@string/register_button"
         android:layout_margin="10dp"
         android:id="@+id/registerButton"
+        android:background="@color/green"
+        android:textColor="@android:color/white"
         android:enabled="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"

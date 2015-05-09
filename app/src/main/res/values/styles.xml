@@ -22,4 +22,16 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="textStyleHeader" parent="android:TextAppearance">
+        <item name="fontPath">Gotham-Book.otf</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="textStyleLarge" parent="android:TextAppearance">
+        <item name="fontPath">Gotham-Book.otf</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
 </resources>
