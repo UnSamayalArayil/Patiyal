@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,7 @@ public class NewDeviceActivity extends Activity {
     EditText alertPercentage;
     String deviceIdFromIntent;
     TextView deviceId;
+    Spinner reminderActionsSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,22 @@ public class NewDeviceActivity extends Activity {
         name = (EditText) findViewById(R.id.deviceName);
         alertPercentage = (EditText) findViewById(R.id.alertPercentage);
         submitButton = (Button) findViewById(R.id.deviceSubmitButton);
+        reminderActionsSpinner = (Spinner) findViewById(R.id.actions_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.reminder_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        reminderActionsSpinner.setAdapter(adapter);
+        reminderActionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

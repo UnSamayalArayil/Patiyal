@@ -28,5 +28,10 @@
     <string name="title_activity_all_items">AllItemsActivity</string>
     <string name="title_activity_chart_test">ChartTestActivity</string>
 
+    <string-array name="reminder_types">
+        <item>SMS</item>
+        <item>location</item>
+    </string-array>
+
 
 </resources>

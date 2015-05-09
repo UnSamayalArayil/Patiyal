@@ -51,6 +51,11 @@
         android:inputType="number"
          />
 
+    <Spinner
+        android:id="@+id/actions_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,6 +63,8 @@
         android:text="@string/submit"
         tools:text="SUBMIT"
         android:id="@+id/deviceSubmitButton" />
+
+
 
 
 
