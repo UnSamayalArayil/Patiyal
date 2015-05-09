@@ -34,13 +34,14 @@ public class RegisterDeviceFragment extends Fragment {
     GoogleCloudMessaging gcm;
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
-    public static final String BASE_URL = "http://api.myservice.com";
+    public static final String BASE_URL = "http://demo1047698.mockable.io";
 
 
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = RegisterDeviceFragment.class.getSimpleName();
     Button registerButton;
+    Button button;
     String regid;
     private RestAdapter restAdapter;
 
@@ -63,6 +64,7 @@ public class RegisterDeviceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_register_device, container, false);
         registerButton = (Button) rootView.findViewById(R.id.registerButton);
+        button = (Button) rootView.findViewById(R.id.button);
         restAdapter = new RestAdapter.Builder()
                 .setEndpoint(BASE_URL)
                 .build();
@@ -85,6 +87,29 @@ public class RegisterDeviceFragment extends Fragment {
                 if (regid.isEmpty()) {
                     registerInBackground();
                 }
+            }
+        });
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendRegistrationIdToBackend("1234");
+            }
+        });
+    }
+
+    private void sendGetRequest() {
+        RetrofitInterface apiService =
+                restAdapter.create(RetrofitInterface.class);
+        apiService.getName(new Callback<RegistrationMessage>() {
+            @Override
+            public void success(RegistrationMessage registrationMessage, Response response) {
+                Toast.makeText(getActivity(), "success: "+registrationMessage.msg,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), "failure",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -131,15 +156,15 @@ public class RegisterDeviceFragment extends Fragment {
     private void sendRegistrationIdToBackend(String regid) {
         RetrofitInterface apiService =
                 restAdapter.create(RetrofitInterface.class);
-        apiService.registerDevice(regid, new Callback<String>() {
+        apiService.registerDevice(regid, new Callback<RegistrationMessage>() {
             @Override
-            public void success(String s, Response response) {
-                Toast.makeText(getActivity(), "Successfully sent registration id to server",Toast.LENGTH_SHORT).show();
+            public void success(RegistrationMessage registrationMessage, Response response) {
+                Toast.makeText(getActivity(), "success post: "+registrationMessage.msg,Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "send regid failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "failure post: ",Toast.LENGTH_SHORT).show();
             }
         });
     }
