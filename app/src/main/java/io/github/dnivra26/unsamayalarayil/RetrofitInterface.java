@@ -7,7 +7,7 @@ import retrofit.http.POST;
 
 public interface RetrofitInterface {
     @POST("/register")
-    void registerDevice(@Body String registrationId, Callback<RegistrationMessage> cb);
+    void registerDevice(@Body RegistrationMessage registrationMessage, Callback<RegistrationResponse> responseCallback);
 
     @GET("/name")
     void getName(Callback<RegistrationMessage> cb);
