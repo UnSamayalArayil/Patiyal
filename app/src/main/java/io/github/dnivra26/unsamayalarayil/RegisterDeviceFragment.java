@@ -22,6 +22,11 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
 
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 
 public class RegisterDeviceFragment extends Fragment {
 
@@ -29,12 +34,15 @@ public class RegisterDeviceFragment extends Fragment {
     GoogleCloudMessaging gcm;
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
+    public static final String BASE_URL = "http://api.myservice.com";
+
 
 
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String TAG = RegisterDeviceFragment.class.getSimpleName();
     Button registerButton;
     String regid;
+    private RestAdapter restAdapter;
 
     public static RegisterDeviceFragment newInstance() {
         RegisterDeviceFragment fragment = new RegisterDeviceFragment();
@@ -55,6 +63,9 @@ public class RegisterDeviceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_register_device, container, false);
         registerButton = (Button) rootView.findViewById(R.id.registerButton);
+        restAdapter = new RestAdapter.Builder()
+                .setEndpoint(BASE_URL)
+                .build();
         return rootView;
     }
 
@@ -118,7 +129,19 @@ public class RegisterDeviceFragment extends Fragment {
     }
 
     private void sendRegistrationIdToBackend(String regid) {
+        RetrofitInterface apiService =
+                restAdapter.create(RetrofitInterface.class);
+        apiService.registerDevice(regid, new Callback<String>() {
+            @Override
+            public void success(String s, Response response) {
+                Toast.makeText(getActivity(), "Successfully sent registration id to server",Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void failure(RetrofitError error) {
+                Toast.makeText(getActivity(), "send regid failed",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private boolean checkPlayServices() {
