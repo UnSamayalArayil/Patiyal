@@ -59,8 +59,7 @@ public class GcmIntentService extends IntentService {
             } else if (type.equalsIgnoreCase("alert")) {
                 String deviceId = jsonObject.get("device_id").getAsString();
                 String item = jsonObject.get("item_name").getAsString();
-                String currentPercentage = jsonObject.get("current percentage").getAsString();
-                ;
+                String currentPercentage = jsonObject.get("current_percentage").getAsString();
                 sendAlertNotification(item, currentPercentage);
                 try {
                     DB snappydb = DBFactory.open(this);
@@ -95,7 +94,7 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(this, MainActivity.class);
-        String msg = "Item " + item + "is below " + currentPercentage + "%. Buy some.";
+        String msg = item.toUpperCase() + " is below " + currentPercentage + "%. Buy some.";
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 intent, 0);
 
