@@ -20,7 +20,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="alert_percentage_helper_text">Enter minimum percentage</string>
-    <string name="device_name_helper_text">Enter device name</string>
+    <string name="device_name_helper_text">Enter item name</string>
     <string name="new_device_message">New device detected. Please fill in the details to get started...</string>
     <string name="submit">submit</string>
     <string name="new_device_alert">New device added. Click to configure.</string>
@@ -29,6 +29,7 @@
     <string name="title_activity_chart_test">ChartTestActivity</string>
 
     <string-array name="reminder_types">
+        <item>None</item>
         <item>SMS</item>
         <item>location</item>
     </string-array>

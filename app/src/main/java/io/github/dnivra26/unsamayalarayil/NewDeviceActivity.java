@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.text.Editable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +18,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.snappydb.DB;
+import com.snappydb.DBFactory;
+import com.snappydb.SnappydbException;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -27,6 +34,7 @@ public class NewDeviceActivity extends Activity {
     Button submitButton;
     EditText name;
     EditText alertPercentage;
+    EditText phoneNumber;
     String deviceIdFromIntent;
     TextView deviceId;
     Spinner reminderActionsSpinner;
@@ -39,17 +47,21 @@ public class NewDeviceActivity extends Activity {
         deviceId = (TextView) findViewById(R.id.deviceId);
         deviceId.append(" "+ deviceIdFromIntent);
         name = (EditText) findViewById(R.id.deviceName);
+        phoneNumber = (EditText) findViewById(R.id.phoneNumber);
         alertPercentage = (EditText) findViewById(R.id.alertPercentage);
         submitButton = (Button) findViewById(R.id.deviceSubmitButton);
         reminderActionsSpinner = (Spinner) findViewById(R.id.actions_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.reminder_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         reminderActionsSpinner.setAdapter(adapter);
         reminderActionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
+                if(adapterView.getItemAtPosition(i).toString().equals("SMS")){
+                    phoneNumber.setVisibility(View.VISIBLE);
+                    phoneNumber.requestFocus();
+                }
             }
 
             @Override
@@ -60,6 +72,8 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(), phoneNumber.getText().toString());
+
                 NewDevice newDevice = new NewDevice(getUserId(),deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
                 RestAdapter restAdapter = new RestAdapter.Builder()
                         .setEndpoint(RegisterDeviceFragment.BASE_URL)
@@ -78,9 +92,26 @@ public class NewDeviceActivity extends Activity {
                         Toast.makeText(NewDeviceActivity.this, "Failed to add item", Toast.LENGTH_LONG).show();
                     }
                 });
+
             }
         });
     }
+
+    private void sendMessage(String item, String phoneNumber) {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNumber, null, "Please send some amount of " + item, null, null);
+
+    }
+
+    private void saveAction(String itemName, String action, String phoneNumber) {
+        try {
+            DB snappydb = DBFactory.open(this);
+            snappydb.put(itemName, new ItemAction(itemName, action, phoneNumber));
+        } catch (SnappydbException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private String getUserId() {
         SharedPreferences sharedPreferences = getSharedPreferences(RegisterDeviceFragment.class.getSimpleName(),

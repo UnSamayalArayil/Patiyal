@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -14,6 +15,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.snappydb.DB;
+import com.snappydb.DBFactory;
+import com.snappydb.SnappydbException;
 
 public class GcmIntentService extends IntentService {
 
@@ -55,13 +59,28 @@ public class GcmIntentService extends IntentService {
             }
             else if(type.equalsIgnoreCase("alert")){
                 String deviceId = jsonObject.get("device_id").getAsString();
-                String item = jsonObject.get("item").getAsString();
+                String item = jsonObject.get("item_name").getAsString();
                 String currentPercentage = jsonObject.get("current percentage").getAsString();;
                 sendAlertNotification(item, currentPercentage);
+                try {
+                    DB snappydb = DBFactory.open(this);
+                    ItemAction object = snappydb.getObject(item, ItemAction.class);
+                    if(object.getAction().equals("SMS")){
+                        sendMessage(item, object.getPhoneNumber());
+                    }
+                } catch (SnappydbException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         GcmBroadcastReceiver.completeWakefulIntent(intent);
+    }
+
+    private void sendMessage(String item, String phoneNumber) {
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(phoneNumber, null, "Please send some amount of " + item, null, null);
+        Log.i(TAG, "Message sent");
     }
 
     private void sendAlertNotification(String item, String currentPercentage) {
