@@ -1,9 +1,7 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="io.github.dnivra26.unsamayalarayil.NewDeviceActivity">
 
     <TextView android:text="@string/new_device_message"
@@ -15,19 +13,26 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/deviceId"
+        android:text="Device Id: "
+        tools:text="Device Id: "/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         tools:text="Enter device name"
         android:id="@+id/deviceNameHelperText"
         android:text="@string/device_name_helper_text"
         android:layout_margin="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/textView"/>
+        />
     <EditText
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:id="@+id/deviceName"
         android:layout_margin="10dp"
-        android:layout_below="@id/deviceNameHelperText"
-        android:layout_alignParentStart="true" />
+         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +41,7 @@
         android:text="@string/alert_percentage_helper_text"
         tools:text="Enter mininum percentage"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_below="@id/deviceName"/>
+        />
 
     <EditText
         android:layout_width="200dp"
@@ -44,17 +49,17 @@
         android:layout_margin="10dp"
         android:id="@+id/alertPercentage"
         android:inputType="number"
-        android:layout_below="@id/alertPercentageHelperText"
-        android:layout_alignParentStart="true" />
+         />
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:layout_below="@id/alertPercentage"
         android:text="@string/submit"
         tools:text="SUBMIT"
         android:id="@+id/deviceSubmitButton" />
 
 
-</RelativeLayout>
+
+
+</LinearLayout>

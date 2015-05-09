@@ -18,6 +18,7 @@ public class GcmIntentService extends IntentService {
     private static final String TAG = GcmIntentService.class.getSimpleName();
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
+    public static final String device_name = "device_name";
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -34,23 +35,15 @@ public class GcmIntentService extends IntentService {
         String messageType = gcm.getMessageType(intent);
         if (GoogleCloudMessaging.
                 MESSAGE_TYPE_SEND_ERROR.equals(messageType)) {
-            sendNotification("Send error: " + extras.toString());
+            Log.d(TAG,"Send error: " + extras.toString());
         } else if (GoogleCloudMessaging.
                 MESSAGE_TYPE_DELETED.equals(messageType)) {
-            sendNotification("Deleted messages on server: " +
+            Log.d(TAG,"Deleted messages on server: " +
                     extras.toString());
         } else if (GoogleCloudMessaging.
                 MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-            for (int i=0; i<5; i++) {
-                Log.i(TAG, "Working... " + (i + 1)
-                        + "/5 @ " + SystemClock.elapsedRealtime());
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                }
-            }
-            Log.i(TAG, "Completed work @ " + SystemClock.elapsedRealtime());
-            sendNotification("Received: " + extras.toString());
+
+            sendNotification(getResources().getString(R.string.new_device_alert), "device_name");
             Log.i(TAG, "Received: " + extras.toString());
 
         }
@@ -58,17 +51,19 @@ public class GcmIntentService extends IntentService {
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg) {
+    private void sendNotification(String msg, String deviceName) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
+        Intent intent = new Intent(this, NewDeviceActivity.class);
+        intent.putExtra(device_name,deviceName);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, MainActivity.class), 0);
+                intent, 0);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_drawer)
-                        .setContentTitle("GCM Notification")
+                        .setContentTitle(getResources().getString(R.string.notification_title))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
                         .setContentText(msg);

@@ -12,7 +12,7 @@ public interface RetrofitInterface {
     @GET("/name")
     void getName(Callback<RegistrationMessage> cb);
 
-    @POST("/add_item")
+    @POST("/newdevice")
     void addItem(@Body NewDevice newDevice, Callback<RegistrationResponse> responseCallback);
 
 
