@@ -1,6 +1,8 @@
 package io.github.dnivra26.unsamayalarayil;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,7 +39,7 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NewDevice newDevice = new NewDevice(deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
+                NewDevice newDevice = new NewDevice(getUserId(),deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
                 RestAdapter restAdapter = new RestAdapter.Builder()
                         .setEndpoint(RegisterDeviceFragment.BASE_URL)
                         .build();
@@ -56,6 +58,13 @@ public class NewDeviceActivity extends Activity {
                 });
             }
         });
+    }
+
+    private String getUserId() {
+        SharedPreferences sharedPreferences = getSharedPreferences(RegisterDeviceFragment.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+        return sharedPreferences.getString(RegisterDeviceFragment.USER_ID, "");
+
     }
 
     @Override

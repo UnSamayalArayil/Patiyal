@@ -31,6 +31,7 @@ public class RegisterDeviceFragment extends Fragment {
 
     String SENDER_ID = "419810287584";
     GoogleCloudMessaging gcm;
+    public static final String USER_ID = "user_id";
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     public static final String BASE_URL = "http://192.168.25.28:3000/";
@@ -137,14 +138,24 @@ public class RegisterDeviceFragment extends Fragment {
         apiService.registerDevice(new RegistrationMessage(regid), new Callback<RegistrationResponse>() {
             @Override
             public void success(RegistrationResponse registrationResponse, Response response) {
-                Toast.makeText(getActivity(), "Sent data: "+registrationResponse.message,Toast.LENGTH_SHORT).show();
+                storeUserId(registrationResponse.user_id);
+                Toast.makeText(getActivity(), "Sent data: " + registrationResponse.message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "Failed data: ",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Failed data: ", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void storeUserId(String user_id) {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(RegisterDeviceFragment.class.getSimpleName(),
+                Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(USER_ID, user_id);
+        editor.commit();
+
     }
 
     private boolean checkPlayServices() {
