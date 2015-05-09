@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">UnSamayalArayil</string>
+    <string name="app_name">Pattiyal</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -14,7 +14,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="register_button">REGISTER DEVICE</string>
+    <string name="register_button">REGISTER</string>
     <string name="welcome_message">UnSamayalArayil</string>
     <string name="title_activity_new_device">Add a new item...</string>
 
@@ -34,6 +34,7 @@
         <item>location</item>
     </string-array>
     <string name="title_activity_map">Select your store location...</string>
+    <string name="registerMessage">Click on REGISTER to add your device to the system</string>
 
 
 </resources>
