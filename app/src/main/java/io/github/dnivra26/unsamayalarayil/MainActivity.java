@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -22,7 +23,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 
 public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, RegisterDeviceFragment.Listener {
 
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -103,4 +104,8 @@ public class MainActivity extends Activity
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
     }
 
+    @Override
+    public void onDeviceAlreadyRegistered() {
+        startActivity(new Intent(this,AllItemsActivity.class));
+    }
 }

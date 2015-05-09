@@ -35,6 +35,7 @@ public class RegisterDeviceFragment extends Fragment {
     public static final String PROPERTY_REG_ID = "registration_id";
     private static final String PROPERTY_APP_VERSION = "appVersion";
     public static final String BASE_URL = "http://192.168.25.28:3000/";
+    Listener listener;
 
 
 
@@ -73,8 +74,13 @@ public class RegisterDeviceFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (checkPlayServices()) {
-            Toast.makeText(getActivity(), "Google play services available",Toast.LENGTH_SHORT).show();
             gcm = GoogleCloudMessaging.getInstance(getActivity());
+            regid = getRegistrationId(getActivity());
+            if (! regid.isEmpty()){
+                //go to home screen
+                Toast.makeText(getActivity(), "Device already registered!!",Toast.LENGTH_SHORT).show();
+                listener.onDeviceAlreadyRegistered();
+            }
             registerButton.setEnabled(true);
         }
 
@@ -176,6 +182,7 @@ public class RegisterDeviceFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        listener = (Listener) activity;
     }
 
     @Override
@@ -218,6 +225,10 @@ public class RegisterDeviceFragment extends Fragment {
         } catch (PackageManager.NameNotFoundException e) {
             throw new RuntimeException("Could not get package name: " + e);
         }
+    }
+
+    public interface Listener{
+        void onDeviceAlreadyRegistered();
     }
 
 }
