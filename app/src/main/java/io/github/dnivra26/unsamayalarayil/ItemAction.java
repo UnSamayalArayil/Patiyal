@@ -9,11 +9,15 @@ public class ItemAction {
     String itemName;
     String action;
     String phoneNumber;
+    String lattitude;
+    String longitude;
 
-    public ItemAction(String itemName, String action, String phoneNumber) {
+    public ItemAction(String itemName, String action, String phoneNumber, String lattitude, String longitude) {
         this.itemName = itemName;
         this.action = action;
         this.phoneNumber = phoneNumber;
+        this.lattitude = lattitude;
+        this.longitude = longitude;
     }
 
     public String getItemName() {
@@ -38,5 +42,21 @@ public class ItemAction {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getLattitude() {
+        return lattitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLattitude(String lattitude) {
+        this.lattitude = lattitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 }

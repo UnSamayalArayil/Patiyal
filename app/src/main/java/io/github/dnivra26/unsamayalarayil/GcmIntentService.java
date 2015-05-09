@@ -6,11 +6,18 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -19,13 +26,19 @@ import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
 
-public class GcmIntentService extends IntentService {
+import java.util.ArrayList;
+import java.util.List;
+
+public class GcmIntentService extends IntentService implements GoogleApiClient.ConnectionCallbacks, ResultCallback{
 
     public static final int NOTIFICATION_ID = 1;
     private static final String TAG = GcmIntentService.class.getSimpleName();
     private NotificationManager mNotificationManager;
     NotificationCompat.Builder builder;
     public static final String device_name = "device_name";
+    private GoogleApiClient googleApiClient;
+    private GeofencingRequest geofencingRequest;
+    private List<Geofence> geofenceList;
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -68,6 +81,9 @@ public class GcmIntentService extends IntentService {
                     if(object.getAction().equals("SMS")){
                         sendMessage(item, object.getPhoneNumber());
                     }
+                    else if(object.getAction().equals("location")){
+                        addLocationReminder(item, Double.parseDouble(object.getLattitude()), Double.parseDouble(object.getLongitude()));
+                    }
                 } catch (SnappydbException e) {
                     e.printStackTrace();
                 }
@@ -75,6 +91,30 @@ public class GcmIntentService extends IntentService {
         }
 
         GcmBroadcastReceiver.completeWakefulIntent(intent);
+    }
+
+    private void addLocationReminder(String itemnName, Double lattitude, Double longitude) {
+        geofenceList = new ArrayList<Geofence>();
+        geofenceList.add(new Geofence.Builder()
+                .setRequestId(itemnName)
+
+                .setCircularRegion(
+                        lattitude,
+                        longitude,
+                        100
+                )
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .build());
+        GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
+        builder.setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER);
+        builder.addGeofences(geofenceList);
+        geofencingRequest = builder.build();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(null)
+                .build();
+
     }
 
     private void sendMessage(String item, String phoneNumber) {
@@ -125,5 +165,33 @@ public class GcmIntentService extends IntentService {
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
+    private PendingIntent getGeofencePendingIntent() {
 
+        Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
+        return PendingIntent.getService(this, 0, intent, PendingIntent.
+                FLAG_UPDATE_CURRENT);
+
+    }
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        LocationServices.GeofencingApi.addGeofences(
+                googleApiClient,
+                geofencingRequest,
+                getGeofencePendingIntent()
+        ).setResultCallback(this);
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onResult(Result result) {
+        if(result.getStatus().isSuccess()){
+            Log.d(TAG, "Successfully added GeoFence :) :)");
+        }
+    }
 }

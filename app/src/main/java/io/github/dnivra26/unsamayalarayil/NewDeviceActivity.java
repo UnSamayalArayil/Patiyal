@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,9 @@ public class NewDeviceActivity extends Activity {
     String deviceIdFromIntent;
     TextView deviceId;
     Spinner reminderActionsSpinner;
+    LinearLayout locationLayout;
+    EditText lattitude;
+    EditText longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,11 @@ public class NewDeviceActivity extends Activity {
         alertPercentage = (EditText) findViewById(R.id.alertPercentage);
         submitButton = (Button) findViewById(R.id.deviceSubmitButton);
         reminderActionsSpinner = (Spinner) findViewById(R.id.actions_spinner);
+        locationLayout = (LinearLayout) findViewById(R.id.locationLayout);
+        lattitude = (EditText) findViewById(R.id.lattitude);
+        longitude = (EditText) findViewById(R.id.longitude);
+
+
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.reminder_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -59,8 +68,18 @@ public class NewDeviceActivity extends Activity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(adapterView.getItemAtPosition(i).toString().equals("SMS")){
+                    locationLayout.setVisibility(View.GONE);
                     phoneNumber.setVisibility(View.VISIBLE);
                     phoneNumber.requestFocus();
+                }
+                else if(adapterView.getItemAtPosition(i).toString().equals("location")){
+                    phoneNumber.setVisibility(View.GONE);
+                    locationLayout.setVisibility(View.VISIBLE);
+                    lattitude.requestFocus();
+                }
+                else{
+                    phoneNumber.setVisibility(View.GONE);
+                    locationLayout.setVisibility(View.GONE);
                 }
             }
 
@@ -72,7 +91,8 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(), phoneNumber.getText().toString());
+                saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
+                        phoneNumber.getText().toString(), lattitude.getText().toString(), longitude.getText().toString());
 
                 NewDevice newDevice = new NewDevice(getUserId(),deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
                 RestAdapter restAdapter = new RestAdapter.Builder()
@@ -103,10 +123,10 @@ public class NewDeviceActivity extends Activity {
 
     }
 
-    private void saveAction(String itemName, String action, String phoneNumber) {
+    private void saveAction(String itemName, String action, String phoneNumber, String lattitude, String longitude) {
         try {
             DB snappydb = DBFactory.open(this);
-            snappydb.put(itemName, new ItemAction(itemName, action, phoneNumber));
+            snappydb.put(itemName, new ItemAction(itemName, action, phoneNumber, lattitude, longitude));
         } catch (SnappydbException e) {
             e.printStackTrace();
         }
