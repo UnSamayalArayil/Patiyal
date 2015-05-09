@@ -16,11 +16,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_button">REGISTER</string>
     <string name="welcome_message">UnSamayalArayil</string>
-    <string name="title_activity_new_device">Add a new item...</string>
+    <string name="title_activity_new_device">Add a new item</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="alert_percentage_helper_text">Alert percentage</string>
-    <string name="device_name_helper_text">Item name</string>
+    <string name="alert_percentage_helper_text">When to notify?</string>
+    <string name="device_name_helper_text">Name</string>
     <string name="new_device_message">New device detected. Please fill in the details to get started...</string>
     <string name="submit">submit</string>
     <string name="new_device_alert">New device added. Click to configure.</string>
@@ -33,7 +33,15 @@
         <item>SMS</item>
         <item>location</item>
     </string-array>
-    <string name="title_activity_map">Select your store location...</string>
+
+    <string-array name="level_types">
+        <item>Half</item>
+        <item>Nearing empty</item>
+        <item>Almost empty</item>
+    </string-array>
+
+
+    <string name="title_activity_map">Select your store location</string>
     <string name="registerMessage">Click on REGISTER to add your device to the system</string>
     <string name="noItemsText">No items in the system yet. Place one on the device to get started...</string>
 

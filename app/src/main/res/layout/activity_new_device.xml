@@ -7,93 +7,70 @@
     tools:context="io.github.dnivra26.unsamayalarayil.NewDeviceActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
-            style="@style/textStyleHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:gravity="center"
-            android:text="@string/new_device_message"
 
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/deviceId"
-            style="@style/textStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Device Id: "
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            tools:text="Device Id: " />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/deviceNameHelperText"
                 style="@style/textStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+
                 android:text="@string/device_name_helper_text"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/deviceName"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+
+
 
             <TextView
                 android:id="@+id/alertPercentageHelperText"
                 style="@style/textStyle"
+                android:layout_marginTop="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/alert_percentage_helper_text"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
-                android:id="@+id/alertPercentage"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:inputType="number" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+        <Spinner
+            android:id="@+id/levels_spinner"
+            android:layout_width="match_parent"
+            style="@style/SpinnerTheme"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_height="wrap_content" />
+
+
 
             <TextView
                 style="@style/textStyle"
                 android:layout_width="wrap_content"
+                android:layout_marginTop="25dp"
                 android:layout_height="wrap_content"
-                android:text="Choose action"
+                android:text="What should happen?"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <Spinner
                 android:id="@+id/actions_spinner"
-                android:layout_width="fill_parent"
-                style="@style/textStyle"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                style="@style/SpinnerTheme"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
+
 
         <EditText
             android:id="@+id/phoneNumber"
@@ -102,6 +79,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ems="10"
+            android:hint="enter mobile number"
+            tools:visibility="visible"
             android:inputType="phone"
             android:visibility="gone" />
 
@@ -110,9 +89,10 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="20dp"
             tools:visibility="visible"
+            android:weightSum="1"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="visible">
+            android:orientation="vertical"
+            android:visibility="gone">
 
 
 
@@ -123,16 +103,15 @@
                 android:id="@+id/latLng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="lat, lng"
+                android:text="Click to pick a location"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
-            <Button
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/green"
-                android:layout_marginLeft="30dp"
-                android:textColor="@android:color/white"
+                android:padding="0dp"
+                android:src="@drawable/ic_map_icon"
                 android:id="@+id/pickLocation"
                 android:text="Pick location"/>
 

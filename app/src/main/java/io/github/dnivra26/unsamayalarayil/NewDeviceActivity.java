@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -34,14 +38,13 @@ public class NewDeviceActivity extends Activity {
 
     Button submitButton;
     EditText name;
-    EditText alertPercentage;
     EditText phoneNumber;
     String deviceIdFromIntent;
-    TextView deviceId;
     Spinner reminderActionsSpinner;
     LinearLayout locationLayout;
     TextView latLng;
-    Button pickLocation;
+    ImageButton pickLocation;
+    Spinner levelSpinner;
 
 
 
@@ -51,27 +54,31 @@ public class NewDeviceActivity extends Activity {
         setContentView(R.layout.activity_new_device);
 
         deviceIdFromIntent = getIntent().getStringExtra(GcmIntentService.device_name);
-        deviceId = (TextView) findViewById(R.id.deviceId);
-        deviceId.append(" " + deviceIdFromIntent);
         name = (EditText) findViewById(R.id.deviceName);
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
-        alertPercentage = (EditText) findViewById(R.id.alertPercentage);
+        levelSpinner = (Spinner) findViewById(R.id.levels_spinner);
         submitButton = (Button) findViewById(R.id.deviceSubmitButton);
         reminderActionsSpinner = (Spinner) findViewById(R.id.actions_spinner);
         locationLayout = (LinearLayout) findViewById(R.id.locationLayout);
         latLng = (TextView) findViewById(R.id.latLng);
-        pickLocation = (Button) findViewById(R.id.pickLocation);
+        pickLocation = (ImageButton) findViewById(R.id.pickLocation);
 
         pickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(NewDeviceActivity.this,MapActivity.class),111);
+                startActivityForResult(new Intent(NewDeviceActivity.this, MapActivity.class), 111);
             }
         });
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.reminder_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        final ArrayAdapter<CharSequence> levelAdapter = ArrayAdapter.createFromResource(this,
+                R.array.level_types, android.R.layout.simple_spinner_item);
+        levelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        levelSpinner.setAdapter(levelAdapter);
+
         reminderActionsSpinner.setAdapter(adapter);
         reminderActionsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -101,7 +108,8 @@ public class NewDeviceActivity extends Activity {
                 saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
                         phoneNumber.getText().toString(), latlng[0], latlng[1]);
 
-                NewDevice newDevice = new NewDevice(getUserId(), deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
+                NewDevice newDevice = new NewDevice(getUserId(), deviceIdFromIntent, name.getText().toString(),
+                        levelMapper.get(levelSpinner.getSelectedItem().toString()));
                 RestAdapter restAdapter = new RestAdapter.Builder()
                         .setEndpoint(RegisterDeviceFragment.BASE_URL)
                         .build();
@@ -124,11 +132,6 @@ public class NewDeviceActivity extends Activity {
         });
     }
 
-    private void sendMessage(String item, String phoneNumber) {
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(phoneNumber, null, "Please send some amount of " + item, null, null);
-
-    }
 
     private void saveAction(String itemName, String action, String phoneNumber, String lattitude, String longitude) {
         try {
@@ -178,4 +181,12 @@ public class NewDeviceActivity extends Activity {
             latLng.setText(data.getStringExtra("latlng"));
         }
     }
+
+    public Map<String,Integer> levelMapper = new HashMap<String, Integer>(){{
+        put("Half",50);
+        put("Nearing empty",30);
+        put("Almost empty", 10);
+    }
+
+    };
 }
