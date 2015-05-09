@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@string/register_button"
         android:id="@+id/registerButton"
+        android:enabled="false"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="137dp" />
