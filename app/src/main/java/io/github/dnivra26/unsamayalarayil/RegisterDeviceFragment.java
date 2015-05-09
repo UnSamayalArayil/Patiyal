@@ -124,7 +124,7 @@ public class RegisterDeviceFragment extends Fragment {
             @Override
             protected void onPostExecute(String msg) {
                 Toast.makeText(getActivity(), "Successfully Registered",Toast.LENGTH_SHORT).show();
-                storeRegistrationId(getActivity(), regid);
+
             }
         }.execute();
     }
@@ -162,7 +162,9 @@ public class RegisterDeviceFragment extends Fragment {
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(USER_ID, user_id);
+
         editor.commit();
+        storeRegistrationId(getActivity(), regid);
 
     }
 

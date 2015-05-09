@@ -6,12 +6,14 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.snappydb.DB;
@@ -61,17 +63,15 @@ public class GcmIntentService extends IntentService {
                 String item = jsonObject.get("item_name").getAsString();
                 String currentPercentage = jsonObject.get("current_percentage").getAsString();
                 sendAlertNotification(item, currentPercentage);
-                try {
-                    DB snappydb = DBFactory.open(this);
-                    ItemAction object = snappydb.getObject(item, ItemAction.class);
+                SharedPreferences sharedPreferences = getSharedPreferences(RegisterDeviceFragment.class.getSimpleName(),
+                        Context.MODE_PRIVATE);
+                String itemJson = sharedPreferences.getString(item, "");
+                ItemAction object = new Gson().fromJson(itemJson, ItemAction.class);
                     if (object.getAction().equals("SMS")) {
                         sendMessage(item, object.getPhoneNumber());
                     } else if (object.getAction().equals("location")) {
                         addLocationReminder(item, Double.parseDouble(object.getLattitude()), Double.parseDouble(object.getLongitude()));
                     }
-                } catch (SnappydbException e) {
-                    e.printStackTrace();
-                }
             }
         }
 

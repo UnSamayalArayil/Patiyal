@@ -19,6 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
@@ -104,7 +105,12 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String[] latlng = latLng.getText().toString().split(",");
+                String[] latlng = new String[]{
+                        "123","345"
+                };
+                if(reminderActionsSpinner.getSelectedItem().toString().equals("location")) {
+                    latlng = latLng.getText().toString().split(",");
+                }
                 saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
                         phoneNumber.getText().toString(), latlng[0], latlng[1]);
 
@@ -134,12 +140,14 @@ public class NewDeviceActivity extends Activity {
 
 
     private void saveAction(String itemName, String action, String phoneNumber, String lattitude, String longitude) {
-        try {
-            DB snappydb = DBFactory.open(this);
-            snappydb.put(itemName, new ItemAction(itemName, action, phoneNumber, lattitude, longitude));
-        } catch (SnappydbException e) {
-            e.printStackTrace();
-        }
+
+            SharedPreferences sharedPreferences = getSharedPreferences(RegisterDeviceFragment.class.getSimpleName(),
+                    Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(itemName, new Gson().toJson(new ItemAction(itemName, action, phoneNumber, lattitude, longitude)));
+            editor.commit();
+
+
     }
 
 
@@ -178,7 +186,7 @@ public class NewDeviceActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 111){
-            latLng.setText("Selected location: "+data.getStringExtra("latlng"));
+            latLng.setText(data.getStringExtra("latlng"));
         }
     }
 
