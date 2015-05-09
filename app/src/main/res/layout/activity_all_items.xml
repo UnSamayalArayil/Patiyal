@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -11,4 +11,16 @@
         android:layout_height="match_parent"
         android:id="@+id/allItemsList"/>
 
-</RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noItemsMessage"
+        tools:visibility="visible"
+        android:layout_margin="20dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        style="@style/textStyleHeader"
+        android:gravity="center"
+        android:text="@string/noItemsText"/>
+
+</FrameLayout>

@@ -25,7 +25,7 @@
     <string name="submit">submit</string>
     <string name="new_device_alert">New device added. Click to configure.</string>
     <string name="notification_title">Un Samyal Arayil</string>
-    <string name="title_activity_all_items">Items...</string>
+    <string name="title_activity_all_items">Items in your list</string>
     <string name="title_activity_chart_test">ChartTestActivity</string>
 
     <string-array name="reminder_types">
@@ -35,6 +35,7 @@
     </string-array>
     <string name="title_activity_map">Select your store location...</string>
     <string name="registerMessage">Click on REGISTER to add your device to the system</string>
+    <string name="noItemsText">No items in the system yet. Place one on the device to get started...</string>
 
 
 </resources>

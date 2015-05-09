@@ -78,7 +78,7 @@ public class RegisterDeviceFragment extends Fragment {
             regid = getRegistrationId(getActivity());
             if (! regid.isEmpty()){
                 //go to home screen
-                Toast.makeText(getActivity(), "Device already registered!!",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Device already registered!!",Toast.LENGTH_SHORT).show();
                 listener.onDeviceAlreadyRegistered();
             }
             registerButton.setEnabled(true);
@@ -90,6 +90,7 @@ public class RegisterDeviceFragment extends Fragment {
                 regid = getRegistrationId(getActivity());
                 if (regid.isEmpty()) {
                     registerInBackground();
+
                 }
                 else{
                     sendRegistrationIdToBackend(regid);
@@ -114,7 +115,6 @@ public class RegisterDeviceFragment extends Fragment {
                     msg = "Device registered, registration ID=" + regid;
                     sendRegistrationIdToBackend(regid);
 
-                    storeRegistrationId(getActivity(), regid);
                 } catch (IOException ex) {
                     msg = "Error :" + ex.getMessage();
                 }
@@ -123,7 +123,8 @@ public class RegisterDeviceFragment extends Fragment {
 
             @Override
             protected void onPostExecute(String msg) {
-                Toast.makeText(getActivity(), "Device successfully registered: "+msg,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Successfully Registered",Toast.LENGTH_SHORT).show();
+                storeRegistrationId(getActivity(), regid);
             }
         }.execute();
     }
@@ -136,6 +137,7 @@ public class RegisterDeviceFragment extends Fragment {
         editor.putString(PROPERTY_REG_ID, regId);
         editor.putInt(PROPERTY_APP_VERSION, appVersion);
         editor.commit();
+        listener.onDeviceSuccessfullyRegistered();
     }
 
     private void sendRegistrationIdToBackend(String regid) {
@@ -145,12 +147,12 @@ public class RegisterDeviceFragment extends Fragment {
             @Override
             public void success(RegistrationResponse registrationResponse, Response response) {
                 storeUserId(registrationResponse.user_id);
-                Toast.makeText(getActivity(), "Sent data: " + registrationResponse.user_id, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Sent data: " + registrationResponse.user_id, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(getActivity(), "Failed data: ", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "Failed data: ", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -229,6 +231,8 @@ public class RegisterDeviceFragment extends Fragment {
 
     public interface Listener{
         void onDeviceAlreadyRegistered();
+
+        void onDeviceSuccessfullyRegistered();
     }
 
 }

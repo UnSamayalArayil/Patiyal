@@ -7,7 +7,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -22,12 +24,14 @@ public class AllItemsActivity extends Activity {
 
     ListView allItemsList;
     private RestAdapter restAdapter;
+    TextView noItemsHelperMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_items);
         allItemsList = (ListView) findViewById(R.id.allItemsList);
+        noItemsHelperMessage = (TextView) findViewById(R.id.noItemsMessage);
         restAdapter = new RestAdapter.Builder()
                 .setEndpoint(RegisterDeviceFragment.BASE_URL)
                 .build();
@@ -39,6 +43,11 @@ public class AllItemsActivity extends Activity {
                 AllItemsAdapter allItemsAdapter = new AllItemsAdapter(AllItemsActivity.this, listResponse.items);
                 allItemsList.setAdapter(allItemsAdapter);
                 allItemsAdapter.notifyDataSetChanged();
+                if(listResponse.items.size() == 0){
+                    noItemsHelperMessage.setVisibility(View.VISIBLE);
+                }else{
+                    noItemsHelperMessage.setVisibility(View.GONE);
+                }
             }
 
             @Override

@@ -60,4 +60,10 @@ public class MainActivity extends Activity
     public void onDeviceAlreadyRegistered() {
         startActivity(new Intent(this,AllItemsActivity.class));
     }
+
+    @Override
+    public void onDeviceSuccessfullyRegistered() {
+        startActivity(new Intent(this, AllItemsActivity.class));
+        finish();
+    }
 }
