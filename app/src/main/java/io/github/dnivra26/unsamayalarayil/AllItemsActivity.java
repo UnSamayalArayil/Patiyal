@@ -1,9 +1,9 @@
 package io.github.dnivra26.unsamayalarayil;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,8 +11,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -43,16 +41,16 @@ public class AllItemsActivity extends Activity {
                 AllItemsAdapter allItemsAdapter = new AllItemsAdapter(AllItemsActivity.this, listResponse.items);
                 allItemsList.setAdapter(allItemsAdapter);
                 allItemsAdapter.notifyDataSetChanged();
-                if(listResponse.items.size() == 0){
+                if (listResponse.items.size() == 0) {
                     noItemsHelperMessage.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     noItemsHelperMessage.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void failure(RetrofitError error) {
-                Toast.makeText(AllItemsActivity.this,"Fetch failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllItemsActivity.this, "Fetch failed", Toast.LENGTH_SHORT).show();
             }
         });
 

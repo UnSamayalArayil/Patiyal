@@ -101,7 +101,7 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_drawer)
+                        .setSmallIcon(R.drawable.ic_add_shopping_cart_white_24dp)
                         .setContentTitle(getResources().getString(R.string.notification_title))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
@@ -122,7 +122,7 @@ public class GcmIntentService extends IntentService {
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_drawer)
+                        .setSmallIcon(R.drawable.ic_add_shopping_cart_white_24dp)
                         .setContentTitle(getResources().getString(R.string.notification_title))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))

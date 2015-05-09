@@ -24,7 +24,7 @@
     <string name="new_device_message">New device detected. Please fill in the details to get started...</string>
     <string name="submit">submit</string>
     <string name="new_device_alert">New device added. Click to configure.</string>
-    <string name="notification_title">Un Samyal Arayil</string>
+    <string name="notification_title">Pattiyal</string>
     <string name="title_activity_all_items">Items in your list</string>
     <string name="title_activity_chart_test">ChartTestActivity</string>
 
