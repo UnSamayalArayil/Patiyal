@@ -50,17 +50,15 @@ public class GcmIntentService extends IntentService {
             String type = extras.getString("type");
             JsonObject jsonObject = jsonParser.parse(jsonMessage).getAsJsonObject();
             if(type.equalsIgnoreCase("new_device")){
-                String deviceId = jsonObject.get("device_id").toString();
+                String deviceId = jsonObject.get("device_id").getAsString();
                 sendNewDeviceNotification(getResources().getString(R.string.new_device_alert),deviceId);
             }
             else if(type.equalsIgnoreCase("alert")){
-                String deviceId = jsonObject.get("device_id").toString();
-                String item = jsonObject.get("item").toString();
-                String currentPercentage = jsonObject.get("current percentage").toString();
+                String deviceId = jsonObject.get("device_id").getAsString();
+                String item = jsonObject.get("item").getAsString();
+                String currentPercentage = jsonObject.get("current percentage").getAsString();;
                 sendAlertNotification(item, currentPercentage);
             }
-
-
         }
 
         GcmBroadcastReceiver.completeWakefulIntent(intent);
@@ -92,7 +90,7 @@ public class GcmIntentService extends IntentService {
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(this, NewDeviceActivity.class);
-        intent.putExtra(device_name,deviceName);
+        intent.putExtra(device_name, deviceName);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 intent, PendingIntent.FLAG_UPDATE_CURRENT);
 

@@ -12,7 +12,7 @@ public interface RetrofitInterface {
     void registerDevice(@Body RegistrationMessage registrationMessage, Callback<RegistrationResponse> responseCallback);
 
     @POST("/list")
-    void getAllItems(@Body String user_id, Callback<ListResponse> cb);
+    void getAllItems(@Body ListMessage listMessage, Callback<ListResponse> cb);
 
     @POST("/newdevice")
     void addItem(@Body NewDevice newDevice, Callback<RegistrationResponse> responseCallback);

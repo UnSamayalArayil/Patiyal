@@ -2,6 +2,7 @@ package io.github.dnivra26.unsamayalarayil;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -49,6 +50,7 @@ public class NewDeviceActivity extends Activity {
                     @Override
                     public void success(RegistrationResponse registrationResponse, Response response) {
                         Toast.makeText(NewDeviceActivity.this, "Item successfully added", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(NewDeviceActivity.this,AllItemsActivity.class));
                     }
 
                     @Override

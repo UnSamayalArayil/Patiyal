@@ -29,7 +29,7 @@ public class AllItemsAdapter extends ArrayAdapter<Item> {
         TextView itemName = (TextView) convertView.findViewById(R.id.itemName);
         TextView currentLevel = (TextView) convertView.findViewById(R.id.currentLevel);
         Item item = items.get(position);
-        itemName.setText("Item Name: "+item.name);
+        itemName.setText("Item Name: "+item.item_name);
         currentLevel.setText("Current Percentage: "+item.current_percentage);
         return convertView;
     }

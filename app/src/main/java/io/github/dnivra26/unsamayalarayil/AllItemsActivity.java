@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class AllItemsActivity extends Activity {
                 .build();
         RetrofitInterface apiService =
                 restAdapter.create(RetrofitInterface.class);
-        apiService.getAllItems(getUserId(), new Callback<ListResponse>() {
+        apiService.getAllItems(new ListMessage(getUserId()), new Callback<ListResponse>() {
             @Override
             public void success(ListResponse listResponse, Response response) {
                 AllItemsAdapter allItemsAdapter = new AllItemsAdapter(AllItemsActivity.this, listResponse.items);
@@ -42,7 +43,7 @@ public class AllItemsActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
-
+                Toast.makeText(AllItemsActivity.this,"Fetch failed",Toast.LENGTH_SHORT).show();
             }
         });
 

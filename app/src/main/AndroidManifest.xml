@@ -38,6 +38,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
             android:name=".NewDeviceActivity"
@@ -46,6 +47,10 @@
         <activity
             android:name=".AllItemsActivity"
             android:label="@string/title_activity_all_items" >
+        </activity>
+        <activity
+            android:name=".ChartTestActivity"
+            android:label="@string/title_activity_chart_test" >
 
         </activity>
     </application>
