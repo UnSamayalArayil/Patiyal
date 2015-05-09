@@ -94,7 +94,7 @@ public class GcmIntentService extends IntentService {
         Intent intent = new Intent(this, NewDeviceActivity.class);
         intent.putExtra(device_name,deviceName);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                intent, 0);
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
