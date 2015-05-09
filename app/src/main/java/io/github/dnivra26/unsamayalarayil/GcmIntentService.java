@@ -6,11 +6,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class GcmIntentService extends IntentService {
 
@@ -42,16 +45,49 @@ public class GcmIntentService extends IntentService {
                     extras.toString());
         } else if (GoogleCloudMessaging.
                 MESSAGE_TYPE_MESSAGE.equals(messageType)) {
+            JsonParser jsonParser = new JsonParser();
+            String jsonMessage = extras.getString("message");
+            String type = extras.getString("type");
+            JsonObject jsonObject = jsonParser.parse(jsonMessage).getAsJsonObject();
+            if(type.equalsIgnoreCase("new_device")){
+                String deviceId = jsonObject.get("device_id").toString();
+                sendNewDeviceNotification(getResources().getString(R.string.new_device_alert),deviceId);
+            }
+            else if(type.equalsIgnoreCase("alert")){
+                String deviceId = jsonObject.get("device_id").toString();
+                String item = jsonObject.get("item").toString();
+                String currentPercentage = jsonObject.get("current percentage").toString();
+                sendAlertNotification(item, currentPercentage);
+            }
 
-            sendNotification(getResources().getString(R.string.new_device_alert), "device_name");
-            Log.i(TAG, "Received: " + extras.toString());
 
         }
 
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg, String deviceName) {
+    private void sendAlertNotification(String item, String currentPercentage) {
+        mNotificationManager = (NotificationManager)
+                this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        String msg = "Item " + item + "is below " + currentPercentage + "%. Buy some.";
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                intent, 0);
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_drawer)
+                        .setContentTitle(getResources().getString(R.string.notification_title))
+                        .setStyle(new NotificationCompat.BigTextStyle()
+                                .bigText(msg))
+                        .setContentText(msg);
+
+        mBuilder.setContentIntent(contentIntent);
+        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+    }
+
+    private void sendNewDeviceNotification(String msg, String deviceName) {
         mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
