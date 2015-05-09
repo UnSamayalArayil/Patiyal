@@ -20,6 +20,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.snappydb.DB;
 import com.snappydb.DBFactory;
 import com.snappydb.SnappydbException;
@@ -30,7 +33,18 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
-public class NewDeviceActivity extends Activity {
+public class NewDeviceActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private static final String TAG = "location";
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d(TAG, "Connection failed");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d(TAG, "Connection failed");
+    }
 
     Button submitButton;
     EditText name;
@@ -43,10 +57,19 @@ public class NewDeviceActivity extends Activity {
     EditText lattitude;
     EditText longitude;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_device);
+
+
+
+
+
+
+
+
         deviceIdFromIntent = getIntent().getStringExtra(GcmIntentService.device_name);
         deviceId = (TextView) findViewById(R.id.deviceId);
         deviceId.append(" "+ deviceIdFromIntent);
@@ -91,27 +114,29 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
-                        phoneNumber.getText().toString(), lattitude.getText().toString(), longitude.getText().toString());
-
-                NewDevice newDevice = new NewDevice(getUserId(),deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
-                RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint(RegisterDeviceFragment.BASE_URL)
-                        .build();
-                RetrofitInterface apiService =
-                        restAdapter.create(RetrofitInterface.class);
-                apiService.addItem(newDevice, new Callback<RegistrationResponse>() {
-                    @Override
-                    public void success(RegistrationResponse registrationResponse, Response response) {
-                        Toast.makeText(NewDeviceActivity.this, "Item successfully added", Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(NewDeviceActivity.this,AllItemsActivity.class));
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Toast.makeText(NewDeviceActivity.this, "Failed to add item", Toast.LENGTH_LONG).show();
-                    }
-                });
+                GeoFencingService geoFencingService = new GeoFencingService(NewDeviceActivity.this);
+                geoFencingService.addLocationReminder("Orange",12.986258, 80.245402);
+//                saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
+//                        phoneNumber.getText().toString(), lattitude.getText().toString(), longitude.getText().toString());
+//
+//                NewDevice newDevice = new NewDevice(getUserId(),deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
+//                RestAdapter restAdapter = new RestAdapter.Builder()
+//                        .setEndpoint(RegisterDeviceFragment.BASE_URL)
+//                        .build();
+//                RetrofitInterface apiService =
+//                        restAdapter.create(RetrofitInterface.class);
+//                apiService.addItem(newDevice, new Callback<RegistrationResponse>() {
+//                    @Override
+//                    public void success(RegistrationResponse registrationResponse, Response response) {
+//                        Toast.makeText(NewDeviceActivity.this, "Item successfully added", Toast.LENGTH_LONG).show();
+//                        startActivity(new Intent(NewDeviceActivity.this,AllItemsActivity.class));
+//                    }
+//
+//                    @Override
+//                    public void failure(RetrofitError error) {
+//                        Toast.makeText(NewDeviceActivity.this, "Failed to add item", Toast.LENGTH_LONG).show();
+//                    }
+//                });
 
             }
         });
@@ -157,5 +182,10 @@ public class NewDeviceActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d(TAG, "Connection failed");
     }
 }
