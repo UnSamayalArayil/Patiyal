@@ -12,5 +12,8 @@ public interface RetrofitInterface {
     @GET("/name")
     void getName(Callback<RegistrationMessage> cb);
 
+    @POST("/add_item")
+    void addItem(@Body NewDevice newDevice, Callback<RegistrationResponse> responseCallback);
+
 
 }

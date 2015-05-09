@@ -54,7 +54,7 @@
         android:layout_below="@id/alertPercentage"
         android:text="@string/submit"
         tools:text="SUBMIT"
-        android:id="@+id/button" />
+        android:id="@+id/deviceSubmitButton" />
 
 
 </RelativeLayout>
