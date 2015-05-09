@@ -25,6 +25,7 @@
     <string name="submit">submit</string>
     <string name="new_device_alert">New device added. Click to configure.</string>
     <string name="notification_title">Un Samyal Arayil</string>
+    <string name="title_activity_all_items">AllItemsActivity</string>
 
 
 </resources>

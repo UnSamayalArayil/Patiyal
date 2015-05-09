@@ -139,7 +139,7 @@ public class RegisterDeviceFragment extends Fragment {
             @Override
             public void success(RegistrationResponse registrationResponse, Response response) {
                 storeUserId(registrationResponse.user_id);
-                Toast.makeText(getActivity(), "Sent data: " + registrationResponse.message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Sent data: " + registrationResponse.user_id, Toast.LENGTH_SHORT).show();
             }
 
             @Override

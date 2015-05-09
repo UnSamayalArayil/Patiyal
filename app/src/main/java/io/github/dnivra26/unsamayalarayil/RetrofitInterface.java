@@ -1,5 +1,7 @@
 package io.github.dnivra26.unsamayalarayil;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -9,8 +11,8 @@ public interface RetrofitInterface {
     @POST("/register")
     void registerDevice(@Body RegistrationMessage registrationMessage, Callback<RegistrationResponse> responseCallback);
 
-    @GET("/name")
-    void getName(Callback<RegistrationMessage> cb);
+    @POST("/list")
+    void getAllItems(@Body String user_id, Callback<ListResponse> cb);
 
     @POST("/newdevice")
     void addItem(@Body NewDevice newDevice, Callback<RegistrationResponse> responseCallback);
