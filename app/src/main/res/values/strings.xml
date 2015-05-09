@@ -16,11 +16,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="register_button">REGISTER DEVICE</string>
     <string name="welcome_message">UnSamayalArayil</string>
-    <string name="title_activity_new_device">NewDeviceActivity</string>
+    <string name="title_activity_new_device">Add a new item...</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="alert_percentage_helper_text">Enter minimum percentage</string>
-    <string name="device_name_helper_text">Enter item name</string>
+    <string name="alert_percentage_helper_text">Alert percentage</string>
+    <string name="device_name_helper_text">Item name</string>
     <string name="new_device_message">New device detected. Please fill in the details to get started...</string>
     <string name="submit">submit</string>
     <string name="new_device_alert">New device added. Click to configure.</string>
