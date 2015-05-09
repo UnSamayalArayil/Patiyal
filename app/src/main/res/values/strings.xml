@@ -33,6 +33,7 @@
         <item>SMS</item>
         <item>location</item>
     </string-array>
+    <string name="title_activity_map">Select your store location...</string>
 
 
 </resources>

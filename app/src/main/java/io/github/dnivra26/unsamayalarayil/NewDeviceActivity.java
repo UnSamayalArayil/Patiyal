@@ -40,8 +40,9 @@ public class NewDeviceActivity extends Activity {
     TextView deviceId;
     Spinner reminderActionsSpinner;
     LinearLayout locationLayout;
-    EditText lattitude;
-    EditText longitude;
+    TextView latLng;
+    Button pickLocation;
+
 
 
     @Override
@@ -58,9 +59,15 @@ public class NewDeviceActivity extends Activity {
         submitButton = (Button) findViewById(R.id.deviceSubmitButton);
         reminderActionsSpinner = (Spinner) findViewById(R.id.actions_spinner);
         locationLayout = (LinearLayout) findViewById(R.id.locationLayout);
-        lattitude = (EditText) findViewById(R.id.lattitude);
-        longitude = (EditText) findViewById(R.id.longitude);
+        latLng = (TextView) findViewById(R.id.latLng);
+        pickLocation = (Button) findViewById(R.id.pickLocation);
 
+        pickLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivityForResult(new Intent(NewDeviceActivity.this,MapActivity.class),111);
+            }
+        });
 
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.reminder_types, android.R.layout.simple_spinner_item);
@@ -76,7 +83,6 @@ public class NewDeviceActivity extends Activity {
                 } else if (adapterView.getItemAtPosition(i).toString().equals("location")) {
                     phoneNumber.setVisibility(View.GONE);
                     locationLayout.setVisibility(View.VISIBLE);
-                    lattitude.requestFocus();
                 } else {
                     phoneNumber.setVisibility(View.GONE);
                     locationLayout.setVisibility(View.GONE);
@@ -91,8 +97,9 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String[] latlng = latLng.getText().toString().split(",");
                 saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
-                        phoneNumber.getText().toString(), lattitude.getText().toString(), longitude.getText().toString());
+                        phoneNumber.getText().toString(), latlng[0], latlng[1]);
 
                 NewDevice newDevice = new NewDevice(getUserId(), deviceIdFromIntent, name.getText().toString(), Integer.parseInt(alertPercentage.getText().toString()));
                 RestAdapter restAdapter = new RestAdapter.Builder()
@@ -162,5 +169,13 @@ public class NewDeviceActivity extends Activity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 111){
+            latLng.setText(data.getStringExtra("latlng"));
+        }
     }
 }

@@ -109,40 +109,34 @@
             android:id="@+id/locationLayout"
             android:layout_width="wrap_content"
             android:layout_marginTop="20dp"
-            tools:visibility="gone"
+            tools:visibility="visible"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
+
+
+
+
 
             <TextView
                 style="@style/textStyle"
+                android:id="@+id/latLng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lat"
+                android:text="lat, lng"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <EditText
-                android:id="@+id/lattitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:ems="5"
-                android:inputType="numberDecimal" />
 
-            <TextView
-                style="@style/textStyle"
+            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Long"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:background="@color/green"
+                android:layout_marginLeft="30dp"
+                android:textColor="@android:color/white"
+                android:id="@+id/pickLocation"
+                android:text="Pick location"/>
 
-            <EditText
-                android:id="@+id/longitude"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:ems="5"
-                android:inputType="numberDecimal" />
+
 
         </LinearLayout>
 

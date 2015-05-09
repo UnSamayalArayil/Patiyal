@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.dnivra26.unsamayalarayil" >
+    package="io.github.dnivra26.unsamayalarayil">
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <permission
         android:name="io.github.dnivra26.permission.C2D_MESSAGE"
@@ -19,10 +26,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA1WYY4yEEgPgw6aVzJh9mhU6eumSl3zDU" />
+
         <receiver
             android:name=".GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
 
@@ -31,30 +45,35 @@
         </receiver>
 
         <service android:name=".GcmIntentService" />
-        <service android:name=".GeofenceTransitionsIntentService"/>
+        <service android:name=".GeofenceTransitionsIntentService" />
 
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
-
-
-        </activity>
-        <activity
-            android:name=".NewDeviceActivity"
-            android:label="@string/title_activity_new_device" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+
+        </activity>
+        <activity
+            android:name=".NewDeviceActivity"
+            android:label="@string/title_activity_new_device">
+
+
         </activity>
         <activity
             android:name=".AllItemsActivity"
-            android:label="@string/title_activity_all_items" >
-        </activity>
+            android:label="@string/title_activity_all_items"></activity>
         <activity
             android:name=".ChartTestActivity"
-            android:label="@string/title_activity_chart_test" >
+            android:label="@string/title_activity_chart_test"></activity>
+        <activity
+            android:name=".MapActivity"
+            android:label="@string/title_activity_map">
+
 
         </activity>
     </application>
