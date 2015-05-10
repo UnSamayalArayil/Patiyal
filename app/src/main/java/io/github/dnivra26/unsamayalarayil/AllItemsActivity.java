@@ -12,6 +12,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -24,6 +26,7 @@ public class AllItemsActivity extends Activity {
     private RestAdapter restAdapter;
     TextView noItemsHelperMessage;
     private AllItemsAdapter allItemsAdapter;
+    private RetrofitInterface apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +37,7 @@ public class AllItemsActivity extends Activity {
         restAdapter = new RestAdapter.Builder()
                 .setEndpoint(RegisterDeviceFragment.BASE_URL)
                 .build();
-        RetrofitInterface apiService =
-                restAdapter.create(RetrofitInterface.class);
+        apiService = restAdapter.create(RetrofitInterface.class);
         apiService.getAllItems(new ListMessage(getUserId()), new Callback<ListResponse>() {
             @Override
             public void success(ListResponse listResponse, Response response) {
@@ -73,7 +75,28 @@ public class AllItemsActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.refreshList) {
+
+            apiService.getAllItems(new ListMessage(getUserId()), new Callback<ListResponse>() {
+                @Override
+                public void success(ListResponse listResponse, Response response) {
+
+                    if (listResponse.items.size() == 0) {
+                        noItemsHelperMessage.setVisibility(View.VISIBLE);
+                        allItemsAdapter.addAll(listResponse.items);
+                        allItemsAdapter.notifyDataSetChanged();
+                    } else {
+                        noItemsHelperMessage.setVisibility(View.GONE);
+                    }
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    noItemsHelperMessage.setVisibility(View.VISIBLE);
+                    Toast.makeText(AllItemsActivity.this, "Fetch failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+
             return true;
         }
 

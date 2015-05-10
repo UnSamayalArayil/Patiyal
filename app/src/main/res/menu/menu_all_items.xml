@@ -2,4 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="io.github.dnivra26.unsamayalarayil.AllItemsActivity">
+    <item android:id="@+id/refreshList" android:icon="@drawable/ic_refresh_white_36dp"
+        android:showAsAction="always"/>
 </menu>
