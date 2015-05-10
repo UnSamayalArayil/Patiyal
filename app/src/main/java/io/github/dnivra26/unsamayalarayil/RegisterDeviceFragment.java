@@ -153,6 +153,7 @@ public class RegisterDeviceFragment extends Fragment {
             @Override
             public void failure(RetrofitError error) {
                 //Toast.makeText(getActivity(), "Failed data: ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Failed to send data :(",Toast.LENGTH_SHORT).show();
             }
         });
     }
