@@ -72,7 +72,10 @@
         </activity>
         <activity
             android:name=".AllItemsActivity"
-            android:label="@string/title_activity_all_items"></activity>
+            android:label="@string/title_activity_all_items">
+
+
+        </activity>
         <activity
             android:name=".ChartTestActivity"
             android:label="@string/title_activity_chart_test"></activity>

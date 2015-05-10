@@ -83,9 +83,11 @@ public class AllItemsActivity extends Activity {
 
                     if (listResponse.items.size() == 0) {
                         noItemsHelperMessage.setVisibility(View.VISIBLE);
-                        allItemsAdapter.addAll(listResponse.items);
-                        allItemsAdapter.notifyDataSetChanged();
                     } else {
+                        allItemsAdapter = new AllItemsAdapter(AllItemsActivity.this, listResponse.items);
+                        allItemsList.setAdapter(allItemsAdapter);
+                        //allItemsAdapter.addAll(listResponse.items);
+                        allItemsAdapter.notifyDataSetChanged();
                         noItemsHelperMessage.setVisibility(View.GONE);
                     }
                 }
