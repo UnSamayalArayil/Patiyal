@@ -125,6 +125,7 @@ public class NewDeviceActivity extends Activity {
                     @Override
                     public void success(RegistrationResponse registrationResponse, Response response) {
                         Toast.makeText(NewDeviceActivity.this, "Item successfully added", Toast.LENGTH_LONG).show();
+                        finish();
                         startActivity(new Intent(NewDeviceActivity.this, AllItemsActivity.class));
                     }
 
