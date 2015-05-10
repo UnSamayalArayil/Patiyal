@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -37,6 +40,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class NewDeviceActivity extends Activity {
     private static final String TAG = "location";
+    private static final int PICK_CONTACT = 321;
 
     Button submitButton;
     EditText name;
@@ -63,6 +67,14 @@ public class NewDeviceActivity extends Activity {
         locationLayout = (LinearLayout) findViewById(R.id.locationLayout);
         latLng = (TextView) findViewById(R.id.latLng);
         pickLocation = (ImageButton) findViewById(R.id.pickLocation);
+
+        phoneNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(intent, PICK_CONTACT);
+            }
+        });
 
         pickLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,8 +198,31 @@ public class NewDeviceActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 111){
+        String cNumber;
+        if (requestCode == 111) {
             latLng.setText(data.getStringExtra("latlng"));
+        }
+
+        if (requestCode == PICK_CONTACT) {
+            Uri contactData = data.getData();
+            Cursor c = managedQuery(contactData, null, null, null, null);
+            if (c.moveToFirst()) {
+
+
+                String id = c.getString(c.getColumnIndexOrThrow(ContactsContract.Contacts._ID));
+
+                String hasPhone = c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+
+                if (hasPhone.equalsIgnoreCase("1")) {
+                    Cursor phones = getContentResolver().query(
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,
+                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + id,
+                            null, null);
+                    phones.moveToFirst();
+                    cNumber = phones.getString(phones.getColumnIndex("data1"));
+                    phoneNumber.setText(cNumber);
+                }
+            }
         }
     }
 
