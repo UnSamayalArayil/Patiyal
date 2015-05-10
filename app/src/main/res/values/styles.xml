@@ -34,4 +34,10 @@
         <item name="android:textSize">40sp</item>
     </style>
 
+    <style name="textStyleSemiLarge" parent="android:TextAppearance">
+        <item name="fontPath">Gotham-Book.otf</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">33sp</item>
+    </style>
+
 </resources>
