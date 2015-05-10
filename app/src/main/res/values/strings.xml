@@ -43,7 +43,7 @@
     </string-array>
 
     <string name="title_activity_map">Select your store location</string>
-    <string name="registerMessage">Click on REGISTER to add your device to the system</string>
+    <string name="registerMessage">Click on REGISTER to add your mobile device to the system</string>
     <string name="noItemsText">No items in the system yet. Place one on the device to get started...</string>
 
 
