@@ -38,8 +38,9 @@
         <item>Half</item>
         <item>Nearing empty</item>
         <item>Almost empty</item>
+        <item>Ninety</item>
+        <item>Seventy</item>
     </string-array>
-
 
     <string name="title_activity_map">Select your store location</string>
     <string name="registerMessage">Click on REGISTER to add your device to the system</string>
