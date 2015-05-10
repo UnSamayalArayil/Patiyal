@@ -239,9 +239,9 @@ public class NewDeviceActivity extends Activity {
     }
 
     public Map<String,Integer> levelMapper = new HashMap<String, Integer>(){{
-        put("Half",50);
-        put("Nearing empty",30);
-        put("Almost empty", 10);
+        put("Half", 90);
+        put("Nearing empty", 80);
+        put("Almost empty",  70);
     }
 
     };
