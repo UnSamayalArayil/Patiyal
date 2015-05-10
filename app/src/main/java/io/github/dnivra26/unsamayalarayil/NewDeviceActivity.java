@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.gson.Gson;
 import com.snappydb.DB;
@@ -53,7 +54,6 @@ public class NewDeviceActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_device);
-
         deviceIdFromIntent = getIntent().getStringExtra(GcmIntentService.device_name);
         name = (EditText) findViewById(R.id.deviceName);
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
