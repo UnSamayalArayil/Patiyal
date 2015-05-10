@@ -55,7 +55,8 @@ public class GeofenceTransitionsIntentService extends IntentService {
                         .setContentTitle(getResources().getString(R.string.notification_title))
                         .setStyle(new NotificationCompat.BigTextStyle()
                                 .bigText(msg))
-                        .setContentText(msg);
+                        .setContentText(msg)
+                        .setAutoCancel(true);
 
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

@@ -23,6 +23,7 @@ public class AllItemsActivity extends Activity {
     ListView allItemsList;
     private RestAdapter restAdapter;
     TextView noItemsHelperMessage;
+    private AllItemsAdapter allItemsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ public class AllItemsActivity extends Activity {
         apiService.getAllItems(new ListMessage(getUserId()), new Callback<ListResponse>() {
             @Override
             public void success(ListResponse listResponse, Response response) {
-                AllItemsAdapter allItemsAdapter = new AllItemsAdapter(AllItemsActivity.this, listResponse.items);
+                allItemsAdapter = new AllItemsAdapter(AllItemsActivity.this, listResponse.items);
                 allItemsList.setAdapter(allItemsAdapter);
                 allItemsAdapter.notifyDataSetChanged();
                 if (listResponse.items.size() == 0) {
@@ -83,5 +84,10 @@ public class AllItemsActivity extends Activity {
                 Context.MODE_PRIVATE);
         return sharedPreferences.getString(RegisterDeviceFragment.USER_ID, "");
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }
