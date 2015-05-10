@@ -200,7 +200,9 @@ public class NewDeviceActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         String cNumber;
         if (requestCode == 111) {
-            latLng.setText(data.getStringExtra("latlng"));
+            if(data != null) {
+                latLng.setText(data.getStringExtra("latlng"));
+            }
         }
 
         if (requestCode == PICK_CONTACT) {
