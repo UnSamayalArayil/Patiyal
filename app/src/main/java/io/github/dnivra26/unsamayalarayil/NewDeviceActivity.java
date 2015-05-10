@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.telephony.SmsManager;
 import android.view.Menu;
@@ -51,7 +53,7 @@ public class NewDeviceActivity extends Activity {
     TextView latLng;
     ImageButton pickLocation;
     Spinner levelSpinner;
-
+    private Location location;
 
 
     @Override
@@ -117,14 +119,17 @@ public class NewDeviceActivity extends Activity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String lat = "", lng = "";
                 String[] latlng = new String[]{
                         "123","345"
                 };
-                if(reminderActionsSpinner.getSelectedItem().toString().equals("location")) {
-                    latlng = latLng.getText().toString().split(",");
+                if(reminderActionsSpinner.getSelectedItem().toString().equals("location") && location!=null) {
+                    //latlng = latLng.getText().toString().split(",");
+                    lat = String.valueOf(location.getLatitude());
+                    lng = String.valueOf(location.getLongitude());
                 }
                 saveAction(name.getText().toString(), reminderActionsSpinner.getSelectedItem().toString(),
-                        phoneNumber.getText().toString(), latlng[0], latlng[1]);
+                        phoneNumber.getText().toString(), lat, lng);
 
                 NewDevice newDevice = new NewDevice(getUserId(), deviceIdFromIntent, name.getText().toString(),
                         levelMapper.get(levelSpinner.getSelectedItem().toString()));
@@ -201,7 +206,10 @@ public class NewDeviceActivity extends Activity {
         String cNumber;
         if (requestCode == 111) {
             if(data != null) {
-                latLng.setText(data.getStringExtra("latlng"));
+
+                location = data.getParcelableExtra("location");
+                String address = data.getStringExtra("address");
+                latLng.setText("Location: "+address);
             }
         }
 
