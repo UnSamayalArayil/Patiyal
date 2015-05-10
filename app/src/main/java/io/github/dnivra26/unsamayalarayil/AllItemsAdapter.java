@@ -31,6 +31,14 @@ public class AllItemsAdapter extends ArrayAdapter<Item> {
         Item item = items.get(position);
         itemName.setText(item.item_name);
         currentLevel.setText(item.current_percentage + " %");
+        double percent = Double.parseDouble(item.current_percentage);
+        if(percent > 80){
+           convertView.setBackgroundColor(activity.getResources().getColor(R.color.light_green));
+        } else if(percent < 20){
+            convertView.setBackgroundColor(activity.getResources().getColor(R.color.light_red));
+        } else{
+            convertView.setBackgroundColor(activity.getResources().getColor(R.color.light_orange));
+        }
         return convertView;
     }
 }

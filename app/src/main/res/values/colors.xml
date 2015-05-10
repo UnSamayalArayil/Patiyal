@@ -5,4 +5,8 @@
     <color name="grey">#6f6f6f</color>
     <color name="green">#009688</color>
     <color name="darker_green">#004D40</color>
+    <color name="light_red">#FF8A80</color>
+    <color name="light_green">#B2DFDB</color>
+    <color name="light_orange">#FFE0B2</color>
+
 </resources>
