@@ -51,6 +51,7 @@ public class AllItemsActivity extends Activity {
 
             @Override
             public void failure(RetrofitError error) {
+                noItemsHelperMessage.setVisibility(View.VISIBLE);
                 Toast.makeText(AllItemsActivity.this, "Fetch failed", Toast.LENGTH_SHORT).show();
             }
         });
